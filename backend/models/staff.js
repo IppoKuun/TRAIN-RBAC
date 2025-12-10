@@ -4,7 +4,7 @@ import { hashPassword, verifyPassword } from "../bcrypt.js"
 const { Schema } = mongoose
 
 const staffSchema = new Schema({
-  staffname: { type: String, required: true },
+  username: { type: String, required: true },
   passwordHash: { type: String, required: true, select: false },
   email: { type: String, required: true, unique: true },
   role: { type: String, enum: ["owner", "admin", "admin", "viewer"], default: "viewer" },
