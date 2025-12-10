@@ -1,4 +1,4 @@
-export default async function permission(roles = null){
+export default function permission(roles = null){
     return (req, res, next) => {
         if (!req.user){
             return res.status(401).json({err : "Utilisateur pas connecté"})

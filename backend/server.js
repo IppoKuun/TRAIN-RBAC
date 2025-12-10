@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo"
 import helmet from "helmet"
 import session from "express-session"
 import { authRoute } from "./routes/auth.routes.js";
-
+import staffRoute from "./routes/staffRoutes.js";
 
 
 const url = envConfig.MONGO_URI
@@ -55,6 +55,7 @@ app.use("/login", authRoute)
 app.get("/health", (req, res) => {
     res.status(200).json({status:"ok"})    
 })
+app.use("/staffRoutes", staffRoute)
 
 
 // METTRE RATE LIMIT //

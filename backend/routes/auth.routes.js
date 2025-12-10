@@ -1,8 +1,9 @@
 import express from "express"
-import requireAuth from "../auth/requireAuth.js"
+import login from "../auth/login.js"
+import logout from "../auth/logout.js"
 
 
 export const authRoute = express.Router()
 
-authRoute.post("/", LoginRateLimiter, login)
-authRoute.post("/logout", logout)
+authRoute.post("/", login)
+authRoute.post("/", logout)

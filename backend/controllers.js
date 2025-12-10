@@ -1,4 +1,4 @@
-import staff from "./models/staff";
+import staff from "./models/staff.js";
 
 export async function staffList(req, res){
     const doc = await staff.find()

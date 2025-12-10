@@ -1,4 +1,4 @@
-import user from "../models/user.js"
+import staff from "../models/staff.js"
 
 export default async function login(req, res){
     //Quand login appelée, on prends user + MDP qu'on a recu pour les vérifié//
@@ -8,7 +8,7 @@ export default async function login(req, res){
         return res.status(400).json({err:"Username ou password manquant"})
     }
 
-    const doc = await user.findOne({username}).select("+passwordHash") 
+    const doc = await staff.findOne({username}).select("+passwordHash") 
     if (!doc){
         return res.status(400).json({err: "Utilisateur introuvable"})
     }
