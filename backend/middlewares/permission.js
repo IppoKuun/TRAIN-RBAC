@@ -1,11 +1,14 @@
-export default function permission(roles = null){
-    return (req, res, next) => {
-        if (!req.user){
-            return res.status(401).json({err : "Utilisateur pas connecté"})
-        }
-     if (roles.includes(req.user.role)){
-        return res.status(403).json({err: "Vous n'etes pas autorisé a effectué cette action"})
-     }
-     next()
+export default function permission(roles = []) {
+  return (req, res, next) => {
+    const role = req.user?.role
+    if (!role) {
+      return res.status(401).json({ err: "Utilisateur pas connecté" })
     }
+
+    if (Array.isArray(roles) && roles.length > 0 && !roles.includes(role)) {
+      return res.status(403).json({ err: "Vous n'etes pas autorisé a effectué cette action" })
+    }
+
+    next()
+  }
 }

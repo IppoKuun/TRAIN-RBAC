@@ -1,0 +1,41 @@
+# Node + deps
+node_modules
+package-lock.json
+
+# Logs & pid
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Builds / coverage
+dist
+build
+coverage
+.nyc_output
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+
+# Backups
+*.bak
+*.swp
+*.swm
+*.swo
+*~
+
+# Ignore seed script
+backend/seed.js

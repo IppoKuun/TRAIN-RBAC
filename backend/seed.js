@@ -2,14 +2,19 @@ import mongoose from "mongoose";
 import staff from "./models/staff.js"
 import envConfig from "./env.js";
 
-     async function seed(){
+    export default async function seed(){
     const url = envConfig.MONGO_URI
     await mongoose.connect(url)
 
-    mdpHash = staff.setPassword("pcoaRr4ErfXGkLNCuHxv")
+        const newOwner = new staff({
+                    username: "Owner_staff_test",
+                    email: "the_real@mail.com", 
+                    role: "owner"
+                });
 
-    const user = {
-        username:"Owner_staff_test",
-
-    }
+            await newOwner.setPassword("pcoaRr4ErfXGkLNCuHxv");
+             await newOwner.save();
+    mongoose.connection.close()
 }
+
+seed()

@@ -6,12 +6,13 @@ export default function requireAuth(roles = null) {
       return res.status(401).json({ err: "Utilisateur non connecté" })
     }
 
+    req.user = sessUser
+
     if (Array.isArray(roles) && roles.length > 0) {
       if (!roles.includes(sessUser.role)) {
         return res.status(401).json({ err: "Accès interdit." })
       }
     }
-
     next()
   }
 }

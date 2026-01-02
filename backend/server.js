@@ -21,8 +21,12 @@ mongoose.connection.on("error", (err) => console.error("[db] error event:", err)
 mongoose.connection.on("disconnected", () => console.warn("[db] disconnected"));
 //CONFIGUARATION DE NOTRE SERVER//
 const app = express()
-app.use(express.json())
-app.use(cors({origin : 'http://localhost:3000', credentials:true, }))
+app.set("trust proxy", envConfig.TRUST_PROXY)
+
+app.use(cors({
+    origin : process.env.FRONT_ORIGIN || 'http://localhost:3000',
+    credentials:true,
+}))
 app.use(express.json({ limit: '1kb' }));   
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // SESSION QUI SERA STOCKER CHEZ MONGO //
 const mongoSession = MongoStore.create({
     mongoUrl: url,
-    ttl: envConfig.Cookies.COOKIE_MAX_AGE
+    ttl: Math.floor(envConfig.Cookies.COOKIE_MAX_AGE / 1000)
 })
 
 app.use(helmet.noSniff());
@@ -43,15 +47,17 @@ app.use(session({
     saveUninitialized:true,
     name:"Express_session",
     store: mongoSession,
-    Cookies:{
-        httpOnly: true, sameSite:envConfig.Cookies.COOKIE_MAX_AGE,
-         maxAge:envConfig.Cookies.COOKIE_MAX_AGE , secure: envConfig.Cookies.COOKIE_SECURE
+    cookie:{
+        httpOnly: true,
+        sameSite: envConfig.Cookies.COOKIE_SAME_SITE,
+        maxAge: envConfig.Cookies.COOKIE_MAX_AGE,
+        secure: envConfig.Cookies.COOKIE_SECURE
     },
     secret: envConfig.SESSION_SECRET
 }))
 
 // INITIALISATION DE NOS ROUTES//
-app.use("/login", authRoute)
+app.use("/auth", authRoute)
 app.get("/health", (req, res) => {
     res.status(200).json({status:"ok"})    
 })
@@ -64,10 +70,11 @@ app.use((req, res) => res.status(404).json({error : "Not Found"}))
 app.use((err, req, res, next) => {
     const dev = envConfig.env === "developpement"
  const payload = {
-    status: res.status || 500,
-    value: err.msg || err.message || "[Express-async-error] erreur serveur",
+    status: res.statusCode && res.statusCode !== 200 ? res.statusCode : 500,
+    value: err?.msg || err?.message || "[Express-async-error] erreur serveur",
     stack: process.env.NODE_ENV === "development" ? err.stack : undefined
  }
+ res.status(payload.status).json(payload)
 })
 
 // DEMARRAGE DU SERV //

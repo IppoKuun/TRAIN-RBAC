@@ -3,10 +3,12 @@ import staff from "../models/staff.js"
 export default async function login(req, res){
     //Quand login appelée, on prends user + MDP qu'on a recu pour les vérifié//
     try{
-    const {username, password} = req.body
+    const {data} = req.body
+    const {username, password} = data
     if (!username || !password) {
         return res.status(400).json({err:"Username ou password manquant"})
     }
+
 
     const doc = await staff.findOne({username}).select("+passwordHash") 
     if (!doc){

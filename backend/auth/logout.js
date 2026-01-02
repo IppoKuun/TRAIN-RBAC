@@ -1,21 +1,16 @@
-export default async function logout(req, res){
-    const sessName = req.session.name
-    const cookies = req.session.cookies
+// backend/auth/logout.js
+export default function logout(req, res, next) {
+  if (!req.session) return res.status(200).json({ ok: true })
 
-    const clearOpts = {
-        sameSite: cookies.sameSite,
-        secure: cookies.secure,
-        httpOnly: cookies.httpOnly,
-    };
+  const clearOpts = {
+    sameSite: req.session.cookie?.sameSite,
+    secure: req.session.cookie?.secure,
+    httpOnly: req.session.cookie?.httpOnly,
+  }
 
-    if (!req.session){
-        res.clearCookies(sessName, clearOpts)
-    }
-
-    await new Promise((resolve, reject) => {
-        res.session.destroy(err ? reject(err) : resolve())
-        res.clearCookies(sessName, clearOpts)
-    })
-
-    return res.status(200).json({ok: true})
+  req.session.destroy((err) => {
+    if (err) return next(err)
+    res.clearCookie("Express_session", clearOpts)
+    res.status(200).json({ ok: true })
+  })
 }

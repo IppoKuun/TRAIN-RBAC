@@ -2,7 +2,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 // Récupération des variable dans le .env
-const env = process.env === "production" ? "production" : "developpement"
+const env = process.env.NODE_ENV === "production" ? "production" : "developpement"
 
 const RAW = {
     PORT : Number(process.env.PORT),
@@ -19,7 +19,7 @@ if (!RAW.MONGO_URI || !RAW.SESSION_SECRET){
     throw new Error("[ENV.JS] Pas de Mongo_URI ou de Session_Secret.")
 }
 
-if (env ==="production" && COOKIE_SAME_SITE === "none" &&  !COOKIE_SECURE){
+if (env ==="production" && RAW.COOKIE_SAME_SITE === "none" &&  !RAW.COOKIE_SECURE){
     throw new Error("[ENV.JS] EN PROD ACTIVER COOKIE SECURE QUAND SAMESITE NONE")
 }
 
