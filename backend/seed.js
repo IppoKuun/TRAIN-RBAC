@@ -18,3 +18,4 @@ import envConfig from "./env.js";
 }
 
 seed()
+

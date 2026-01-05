@@ -1,11 +1,12 @@
 import express from "express"
 import login from "../auth/login.js"
 import logout from "../auth/logout.js"
+import { LoginRateLimiter } from "../rateLimits.js"
 
 
 export const authRoute = express.Router()
 
-authRoute.post("/login", login)
+authRoute.post("/login", LoginRateLimiter, login)
 authRoute.post("/logout", logout)
 authRoute.get("/me", (req, res) => {
 

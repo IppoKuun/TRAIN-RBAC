@@ -24,7 +24,7 @@ const app = express()
 app.set("trust proxy", envConfig.TRUST_PROXY)
 
 app.use(cors({
-    origin : process.env.FRONT_ORIGIN || 'http://localhost:3000',
+    origin : process.env.FRONT_ORIGIN,
     credentials:true,
 }))
 app.use(express.json({ limit: '1kb' }));   
