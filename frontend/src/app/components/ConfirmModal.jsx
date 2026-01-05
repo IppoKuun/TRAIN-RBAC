@@ -1,5 +1,18 @@
-export default function ConfirmModal({ open, title, message, onConfirm, onCancel }) {
+export default function ConfirmModal({
+    open,
+    title,
+    message,
+    onConfirm,
+    onCancel,
+    confirmLabel = "Confirmer",
+    confirmVariant = "danger",
+}) {
     if (!open) return null
+
+    const confirmClass =
+        confirmVariant === "danger"
+            ? "bg-red-600 hover:bg-red-700"
+            : "bg-indigo-600 hover:bg-indigo-700"
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -16,10 +29,10 @@ export default function ConfirmModal({ open, title, message, onConfirm, onCancel
                     </button>
                     <button
                         type="button"
-                        className="px-4 py-2 rounded bg-red-600 text-white"
+                        className={`px-4 py-2 rounded text-white transition ${confirmClass}`}
                         onClick={onConfirm}
                     >
-                        Supprimer
+                        {confirmLabel}
                     </button>
                 </div>
             </div>

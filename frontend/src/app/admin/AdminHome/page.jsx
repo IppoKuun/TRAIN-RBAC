@@ -234,6 +234,8 @@ export default function AdminPage(){
               open={Boolean(confirmDeleteId)}
               title="Supprimer ce membre ?"
               message="Êtes-vous sûr de vouloir supprimer ce membre du staff ?"
+              confirmLabel="Supprimer"
+              confirmVariant="danger"
               onCancel={() => setConfirmDeleteId(null)}
               onConfirm={async () => {
                 if (!confirmDeleteId) return
@@ -264,6 +266,8 @@ export default function AdminPage(){
               open={Boolean(confirmEditId)}
               title="Confirmer la modification"
               message="Êtes-vous sûr de vouloir enregistrer ces modifications ?"
+              confirmLabel="Enregistrer"
+              confirmVariant="primary"
               onCancel={() => setConfirmEditId(null)}
               onConfirm={async () => {
                 if (!confirmEditId) return
