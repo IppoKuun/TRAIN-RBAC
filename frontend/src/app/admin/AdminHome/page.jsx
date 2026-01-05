@@ -23,13 +23,18 @@ export default function AdminPage(){
     const [createOpen, setCreateOpen] = useState(false)
     const [creating, setCreating] = useState(false)
     const openMenuRef = useRef(null)
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
 
       const Router = useRouter()
     
     const fetchMembers = async () => {
+        if (!API_URL) {
+            setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+            return
+        }
         try{
             setLoading(true)
-            const res = await fetch("http://localhost:4000/staffRoutes", { credentials: "include" })
+            const res = await fetch(`${API_URL}/staffRoutes`, { credentials: "include" })
             const data = await res.json()
 
             if (res.status === 403) {
@@ -51,8 +56,12 @@ export default function AdminPage(){
     }
 
     const getUser = async () => {
+        if (!API_URL) {
+            setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+            return
+        }
         try{
-            const res = await fetch("http://localhost:4000/auth/me",{credentials:"include"})
+            const res = await fetch(`${API_URL}/auth/me`,{credentials:"include"})
             const data = await res.json()
 
             if (res.status === 403) {
@@ -91,8 +100,12 @@ export default function AdminPage(){
     }, [openMenuId])
 
     const  handleLogout = async () => {
+        if (!API_URL) {
+            setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+            return
+        }
         try {
-            await fetch("http://localhost:4000/auth/logout", { method: "POST", credentials:"include"})
+            await fetch(`${API_URL}/auth/logout`, { method: "POST", credentials:"include"})
         } catch (e) {
             console.error("Erreur logout", e)
         } finally {
@@ -239,8 +252,12 @@ export default function AdminPage(){
               onCancel={() => setConfirmDeleteId(null)}
               onConfirm={async () => {
                 if (!confirmDeleteId) return
+                if (!API_URL) {
+                    setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+                    return
+                }
                 try {
-                    const res = await fetch(`http://localhost:4000/staffRoutes/${confirmDeleteId}`, {
+                    const res = await fetch(`${API_URL}/staffRoutes/${confirmDeleteId}`, {
                         method: "DELETE",
                         credentials: "include",
                     })
@@ -271,8 +288,12 @@ export default function AdminPage(){
               onCancel={() => setConfirmEditId(null)}
               onConfirm={async () => {
                 if (!confirmEditId) return
+                if (!API_URL) {
+                    setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+                    return
+                }
                 try {
-                    const res = await fetch(`http://localhost:4000/staffRoutes/${confirmEditId}`, {
+                    const res = await fetch(`${API_URL}/staffRoutes/${confirmEditId}`, {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         credentials: "include",
@@ -303,9 +324,13 @@ export default function AdminPage(){
               loading={creating}
               onCancel={() => setCreateOpen(false)}
               onSubmit={async (payload) => {
+                if (!API_URL) {
+                    setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+                    return
+                }
                 try {
                     setCreating(true)
-                    const res = await fetch("http://localhost:4000/staffRoutes", {
+                    const res = await fetch(`${API_URL}/staffRoutes`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         credentials: "include",

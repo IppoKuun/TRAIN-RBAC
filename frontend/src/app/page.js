@@ -10,13 +10,18 @@ export default function Home() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState(false)
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!API_URL) {
+      setMsg("Configuration manquante : NEXT_PUBLIC_API_URL")
+      return
+    }
     try {
       setLoading(true)
       const data = { username: username, password: password }
-      const res = await fetch("http://localhost:4000/auth/login", {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         body: JSON.stringify({ data }),
         credentials: "include",
