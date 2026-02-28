@@ -1,6 +1,6 @@
 # Node + deps
-node_modules
-package-lock.json
+node_modules/
+**/node_modules/
 
 # Logs & pid
 npm-debug.log*
@@ -15,14 +15,24 @@ pids
 
 # Env / secrets
 .env
+**/.env
 .env.local
+**/.env.local
 .env.*.local
+**/.env.*.local
 
 # Builds / coverage
 dist
 build
+**/.next/
+**/dist/
+**/build/
 coverage
 .nyc_output
+
+# Vercel
+.vercel/
+**/.vercel/
 
 # OS / editor
 .DS_Store

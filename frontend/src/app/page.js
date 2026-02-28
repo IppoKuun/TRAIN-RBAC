@@ -109,30 +109,6 @@ export default function Home() {
               />
             </label>
 
-            <div className="flex flex-wrap gap-3 text-xs text-slate-100">
-              <span className="text-slate-200/80">Remplir automatiquement :</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setUsername("admin")
-                  setPassword("123456789")
-                }}
-                className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-500/20"
-              >
-                Admin (admin / 123456789)
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setUsername("viewer")
-                  setPassword("123456789")
-                }}
-                className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-500/20"
-              >
-                Viewer (viewer / 123456789)
-              </button>
-            </div>
-
             <button
               disabled={loading}
               className="mt-2 inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:bg-indigo-600 hover:shadow-indigo-600/40 disabled:cursor-not-allowed disabled:opacity-70"
