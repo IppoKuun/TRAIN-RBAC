@@ -1,6 +1,12 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function CreateStaffModal({ open, loading, onCancel, onSubmit }) {
+    const initialForm = {
+        username: "",
+        email: "",
+        role: "viewer",
+        password: "",
+    }
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -8,17 +14,17 @@ export default function CreateStaffModal({ open, loading, onCancel, onSubmit }) 
         password: "",
     })
 
-    useEffect(() => {
-        if (open) {
-            setForm({ username: "", email: "", role: "viewer", password: "" })
-        }
-    }, [open])
-
     if (!open) return null
 
     const handleSubmit = (e) => {
         e.preventDefault()
         onSubmit(form)
+        setForm(initialForm)
+    }
+
+    const handleCancel = () => {
+        setForm(initialForm)
+        onCancel()
     }
 
     return (
@@ -73,7 +79,7 @@ export default function CreateStaffModal({ open, loading, onCancel, onSubmit }) 
                         <button
                             type="button"
                             className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-                            onClick={onCancel}
+                            onClick={handleCancel}
                             disabled={loading}
                         >
                             Annuler
