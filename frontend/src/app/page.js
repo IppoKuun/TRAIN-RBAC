@@ -21,7 +21,7 @@ export default function Home() {
     try {
       setLoading(true)
       const data = { username: username, password: password }
-      const res = await fetch(`${API_URL}/auth/login`, {
+      const res = await fetch(`${API_URL}auth/login`, {
         method: "POST",
         body: JSON.stringify({ data }),
         credentials: "include",

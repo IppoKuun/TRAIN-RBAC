@@ -49,3 +49,4 @@ Thumbs.db
 
 # Ignore seed script
 backend/seed.js
+.vercel
