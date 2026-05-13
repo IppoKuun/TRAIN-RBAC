@@ -11,6 +11,16 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState(false)
   const API_URL = process.env.NEXT_PUBLIC_API_URL
+  const demoAccounts = [
+    { label: "Viewer", username: "viewer", password: "viewer-demo-2026" },
+    { label: "Admin", username: "admin", password: "admin-demo-2026" },
+  ]
+
+  const fillDemoAccount = (account) => {
+    setUsername(account.username)
+    setPassword(account.password)
+    setMsg(false)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -21,7 +31,7 @@ export default function Home() {
     try {
       setLoading(true)
       const data = { username: username, password: password }
-      const res = await fetch(`${API_URL}auth/login`, {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         body: JSON.stringify({ data }),
         credentials: "include",
@@ -30,12 +40,14 @@ export default function Home() {
 
       const JSONres = await res.json()
       if (!res.ok) {
+        console.error("Erreur login:", res.status, JSONres)
         setMsg(JSONres.err)
         return
       }
       Router.push("/admin/AdminHome")
     } catch (e) {
-      setMsg(`Erreur lors de la connection avec le serveur ${e}`)
+      setMsg(`Erreur lors de la connection avec le serveur `)
+      console.error(e)
     } finally {
       setLoading(false)
     }
@@ -85,6 +97,19 @@ export default function Home() {
                 {msg}
               </div>
             )}
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {demoAccounts.map((account) => (
+                <button
+                  key={account.username}
+                  type="button"
+                  onClick={() => fillDemoAccount(account)}
+                  className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:border-indigo-300 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-200/40"
+                >
+                  Remplir {account.label}
+                </button>
+              ))}
+            </div>
 
             <label className="flex flex-col gap-2 text-sm font-medium text-white">
               <span>Nom d’utilisateur</span>
